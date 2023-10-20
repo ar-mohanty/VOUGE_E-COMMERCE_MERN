@@ -5,6 +5,7 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const user = {
   name: "Tom Cook",
@@ -64,8 +65,8 @@ export default function Navbar({ children }) {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <button
-                        type="button"
+                      <Link
+                        to="/cart"
                         className="relative rounded-full p-1 text-black hover:text-gray-400"
                       >
                         <span className="absolute -inset-1.5" />
@@ -73,7 +74,7 @@ export default function Navbar({ children }) {
                           className="h-6 w-6"
                           aria-hidden="true"
                         />
-                      </button>
+                      </Link>
                       <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-500">
                         3
                       </span>
@@ -178,8 +179,8 @@ export default function Navbar({ children }) {
                         {user.email}
                       </div>
                     </div>
-                    <button
-                      type="button"
+                    <Link
+                      to="/cart"
                       className="relative ml-auto flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-white"
                     >
                       <span className="absolute -inset-1.5" />
@@ -187,7 +188,7 @@ export default function Navbar({ children }) {
                         className="h-6 w-6"
                         aria-hidden="true"
                       />
-                    </button>
+                    </Link>
                     <span className="inline-flex items-center rounded-md mb-7 -ml-3 bg-red-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-600">
                       3
                     </span>
