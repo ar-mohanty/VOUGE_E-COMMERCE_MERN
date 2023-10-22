@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, incrementAsync, selectCount } from "../authSlice";
 import { Link } from "react-router-dom";
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import { selectLoggedInUser, createUserAsync } from "../authSlice";
+import { Navigate } from "react-router-dom";
 
 export default function Signup() {
-  const count = useSelector(selectCount);
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const user = useSelector(selectLoggedInUser);
 
   return (
     <>
+      {user && <Navigate to="/" replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -23,7 +31,16 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            noValidate
+            className="space-y-6"
+            onSubmit={handleSubmit((data) => {
+              dispatch(
+                createUserAsync({ email: data.email, password: data.password })
+              );
+              console.log(data);
+            })}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -34,12 +51,20 @@ export default function Signup() {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
+                  {...register("email", {
+                    required: "Email Id is required",
+                    pattern: {
+                      value:
+                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                      message: "please enter valid email address!",
+                    },
+                  })}
                   type="email"
-                  autoComplete="email"
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.email && (
+                  <span className="text-red-500">{errors.email.message}</span>
+                )}
               </div>
             </div>
 
@@ -55,12 +80,25 @@ export default function Signup() {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  {...register("password", {
+                    required: "password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                      message: `please enter strong password.\n
+                         -at least 8 characters\n
+                         - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number\n
+                         - Can contain special characters`,
+                    },
+                  })}
                   type="password"
-                  autoComplete="current-password"
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.password && (
+                  <span className="text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
               </div>
             </div>
             <div>
@@ -74,12 +112,21 @@ export default function Signup() {
               </div>
               <div className="mt-2">
                 <input
-                  id="confirm-password"
-                  name="confirm-password"
+                  id="confirmPassword"
+                  {...register("confirmPassword", {
+                    required: "confirm password is required",
+                    validate: (value, formValues) =>
+                      value === formValues.password ||
+                      "confirm-password and password should be same!",
+                  })}
                   type="password"
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.confirmPassword && (
+                  <span className="text-red-500">
+                    {errors.confirmPassword.message}
+                  </span>
+                )}
               </div>
             </div>
 
