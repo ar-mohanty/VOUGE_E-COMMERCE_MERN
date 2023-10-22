@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchAllProducts, fetchProductsByFilters, fetchBrands, fetchCategories } from "./ProductApi";
+import {
+  fetchAllProducts,
+  fetchProductsByFilters,
+  fetchBrands,
+  fetchCategories,
+  fetchProductById,
+} from "./ProductApi";
 
 const initialState = {
   products: [],
@@ -7,12 +13,21 @@ const initialState = {
   categories: [],
   status: "idle",
   totalPages: 0,
+  selectedProduct: null,
 };
 
 export const fetchAllProductsAsync = createAsyncThunk(
   "product/fetchAllProducts",
   async () => {
     const response = await fetchAllProducts();
+    return response.data;
+  }
+);
+
+export const fetchProductByIdAsync = createAsyncThunk(
+  "product/fetchProductById",
+  async (id) => {
+    const response = await fetchProductById(id);
     return response.data;
   }
 );
@@ -25,7 +40,6 @@ export const fetchProductsByFiltersAsync = createAsyncThunk(
   }
 );
 
-
 export const fetchBrandsAsync = createAsyncThunk(
   "product/fetchBrands",
   async () => {
@@ -34,7 +48,6 @@ export const fetchBrandsAsync = createAsyncThunk(
   }
 );
 
-
 export const fetchCategoriesAsync = createAsyncThunk(
   "product/fetchCategories",
   async () => {
@@ -42,8 +55,6 @@ export const fetchCategoriesAsync = createAsyncThunk(
     return response.data;
   }
 );
-
-
 
 export const productSlice = createSlice({
   name: "product",
@@ -85,6 +96,13 @@ export const productSlice = createSlice({
         state.status = "idle";
         state.categories = action.payload;
       })
+      .addCase(fetchProductByIdAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchProductByIdAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.selectedProduct = action.payload;
+      });
   },
 });
 
@@ -93,5 +111,6 @@ export const selectAllProducts = (state) => state.product.products;
 export const selectTotalPages = (state) => state.product.totalPages;
 export const selectBrands = (state) => state.product.brands;
 export const selectCategories = (state) => state.product.categories;
+export const selecteProductById = (state) => state.product.selectedProduct;
 
 export default productSlice.reducer;
