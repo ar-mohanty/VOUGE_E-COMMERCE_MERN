@@ -8,11 +8,15 @@ export function fetchAllProducts() {
 }
 
 //fetch products by desired filters
-export function fetchProductsByFilters(filter) {
+export function fetchProductsByFilters(filter,sort) {
   //here filter is an object like filter = {"category":"smartphone"}
-  let queryString = '';
+  let queryString = "";
   for (let key in filter) {
-    queryString += `${key}=${filter[key]}&`;
+    const categoryValues = filter[key];
+    if (categoryValues.length) {
+      const lastCategoryValue = categoryValues[categoryValues.length - 1];
+      queryString += `${key}=${lastCategoryValue}&`;
+    }
   }
   return new Promise(async (resolve) => {
     const response = await fetch(
