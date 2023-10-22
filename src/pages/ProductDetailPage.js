@@ -1,5 +1,5 @@
 import React from "react";
-import ProductDetail from "../features/product list/component/ProductDetail";
+import ProductDetail from "../features/product/component/ProductDetail";
 
 const ProductDetailPage = () => {
   return (
