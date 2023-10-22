@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { ITEM_PER_PAGE } from "../../app/constant";
 
 const Pagination = ({ handlePage, page, setPage, totalPages }) => {
+  const totalNumbersOfPages = Math.ceil(totalPages / ITEM_PER_PAGE);
   return (
     <>
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -41,17 +42,19 @@ const Pagination = ({ handlePage, page, setPage, totalPages }) => {
               className="isolate inline-flex -space-x-px rounded-md shadow-sm"
               aria-label="Pagination"
             >
-              <a
-                href="#"
+              <div
+                onClick={(e) =>
+                  handlePage(page > 1 ? page - 1 : page)
+                }
                 className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-              </a>
+              </div>
               {/* Current: "z-10 bg-black text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
 
               {Array.from({
-                length: Math.ceil(totalPages / ITEM_PER_PAGE),
+                length: totalNumbersOfPages,
               }).map((el, index) => (
                 <div
                   onClick={(e) => handlePage(index + 1)}
@@ -66,13 +69,15 @@ const Pagination = ({ handlePage, page, setPage, totalPages }) => {
                 </div>
               ))}
 
-              <a
-                href="#"
+              <div
+                onClick={(e) =>
+                  handlePage(page < totalNumbersOfPages ? page + 1 : page)
+                }
                 className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Next</span>
                 <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-              </a>
+              </div>
             </nav>
           </div>
         </div>
