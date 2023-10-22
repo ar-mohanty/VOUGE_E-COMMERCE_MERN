@@ -4,6 +4,7 @@ import {
   fetchAllProductsAsync,
   fetchProductsByFiltersAsync,
   selectAllProducts,
+  selectTotalPages,
 } from "../ProductSlice";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon, StarIcon } from "@heroicons/react/24/outline";
@@ -16,6 +17,7 @@ import {
 } from "@heroicons/react/20/solid";
 import Pagination from "../../pagination/Pagination";
 import { Link } from "react-router-dom";
+import { ITEM_PER_PAGE } from "../../../app/constant";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -194,9 +196,11 @@ function classNames(...classes) {
 export default function ProductList() {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
+  const totalPages = useSelector(selectTotalPages);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
 
   //filter logic
   const handleFilter = (e, section, option) => {
@@ -208,7 +212,7 @@ export default function ProductList() {
         newFilter[section.id] = [option.value];
       }
     } else {
-      const index = newFilter[section.id].find((el) => el === option.value);
+      const index = newFilter[section.id].findIndex((el) => el === option.value);
       newFilter[section.id].splice(index, 1);
     }
     setFilter(newFilter);
@@ -221,9 +225,19 @@ export default function ProductList() {
     setSort(sort);
   };
 
+  const handlePage = (page) => {
+    console.log({ page });
+    setPage(page);
+  };
+
   useEffect(() => {
-    dispatch(fetchProductsByFiltersAsync({ filter, sort }));
-  }, [dispatch, filter, sort]);
+    const pagination = { _page: page, _limit: ITEM_PER_PAGE };
+    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+  }, [dispatch, filter, sort, page]);
+
+  useEffect(() => {
+    setPage(1);
+  },[totalPages, sort]);
 
   return (
     <>
@@ -322,7 +336,12 @@ export default function ProductList() {
                 </div>
               </div>
             </section>
-            <Pagination></Pagination>
+            <Pagination
+              handlePage={handlePage}
+              page={page}
+              setPage={setPage}
+              totalPages={totalPages}
+            />
           </main>
         </div>
       </div>
