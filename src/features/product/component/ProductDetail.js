@@ -8,6 +8,9 @@ import {
   selecteProductById,
 } from "../ProductSlice";
 import { useParams } from "react-router-dom";
+import { addToCart } from "../../cart/cartApi";
+import { addToCartAsync } from "../../cart/cartSlice";
+import { selectLoggedInUser } from "../../auth/authSlice";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -40,9 +43,15 @@ function classNames(...classes) {
 const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const user = useSelector(selectLoggedInUser);
   const product = useSelector(selecteProductById);
   const dispatch = useDispatch();
   const params = useParams();
+
+  const handleCart = (e) => {
+    e.preventDefault();
+    dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
+  };
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
@@ -52,45 +61,45 @@ const ProductDetail = () => {
     <div className="bg-white">
       {product && (
         <div className="pt-6">
-          {/* <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-          >
-            {product.breadcrumbs &&
-              product.breadcrumbs.map((breadcrumb) => (
-                <li key={breadcrumb.id}>
-                  <div className="flex items-center">
-                    <a
-                      href={breadcrumb.href}
-                      className="mr-2 text-sm font-medium text-gray-900"
-                    >
-                      {breadcrumb.name}
-                    </a>
-                    <svg
-                      width={16}
-                      height={20}
-                      viewBox="0 0 16 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="h-5 w-4 text-gray-300"
-                    >
-                      <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                    </svg>
-                  </div>
-                </li>
-              ))}
-            <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.title}
-              </a>
-            </li>
-          </ol>
-        </nav> */}
+          <nav aria-label="Breadcrumb">
+            <ol
+              role="list"
+              className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
+            >
+              {product.breadcrumbs &&
+                product.breadcrumbs.map((breadcrumb) => (
+                  <li key={breadcrumb.id}>
+                    <div className="flex items-center">
+                      <a
+                        href={breadcrumb.href}
+                        className="mr-2 text-sm font-medium text-gray-900"
+                      >
+                        {breadcrumb.name}
+                      </a>
+                      <svg
+                        width={16}
+                        height={20}
+                        viewBox="0 0 16 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        className="h-5 w-4 text-gray-300"
+                      >
+                        <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+                      </svg>
+                    </div>
+                  </li>
+                ))}
+              <li className="text-sm">
+                <a
+                  href={product.href}
+                  aria-current="page"
+                  className="font-medium text-gray-500 hover:text-gray-600"
+                >
+                  {product.title}
+                </a>
+              </li>
+            </ol>
+          </nav>
 
           {/* Image gallery */}
           <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
@@ -288,6 +297,7 @@ const ProductDetail = () => {
                 </div>
 
                 <button
+                  onClick={handleCart}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
