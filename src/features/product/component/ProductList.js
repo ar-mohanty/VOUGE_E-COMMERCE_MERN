@@ -9,9 +9,14 @@ import {
   selectBrands,
   selectCategories,
   selectTotalPages,
+  selecteProductById,
 } from "../ProductSlice";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon, StarIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  StarIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -22,7 +27,8 @@ import {
 import Pagination from "../../pagination/Pagination";
 import { Link } from "react-router-dom";
 import { ITEM_PER_PAGE } from "../../../app/constant";
-import { fetchCategories } from "../ProductApi";
+import { selectLoggedInUser } from "../../auth/authSlice";
+import { addToCartAsync } from "../../cart/cartSlice";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -112,7 +118,7 @@ export default function ProductList() {
             filters={filters}
           />
 
-          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 sm:py-0">
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 New Arrivals
@@ -391,52 +397,71 @@ function DesktopFilters({ handleFilter, filters }) {
 }
 
 function ProductGrid({ products }) {
+  const user = useSelector(selectLoggedInUser);
+  const product = useSelector(selecteProductById);
+  const dispatch = useDispatch();
+  const handleCart = (e) => {
+    e.preventDefault();
+    const newItem = { ...product, quantity: 1, user: user.id };
+    delete newItem["id"];
+    dispatch(addToCartAsync(newItem));
+  };
   return (
     <>
       <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-2 sm:px-6 sm:py-5 lg:max-w-7xl lg:px-8">
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-3 xl:gap-x-8">
+        <div className="mx-auto max-w-2xl px-4 py-2 sm:px-6 sm:py-5 lg:py-0 lg:max-w-7xl lg:px-8">
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-3 xl:gap-x-8 ">
             {products.map((product) => (
               <Link to={`/product-detail/${product.id}`} key={product.id}>
-                <div key={product.id} className="group relative">
-                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                <div key={product.id} className="group relative p-3 rounded-md shadow-sm hover:shadow-md">
+                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                     <img
                       src={product.thumbnail}
                       alt={product.title}
                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                     />
                   </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-md text-gray-900 font-semibold">
-                        <div href={product.thumbnail}>
+                  <div className="mt-4 flex flex-col justify-start">
+                    <div className="font-semibold flex justify-between">
+                      <div className="fex flex-col w-1/2">
+                        <h3 className="text-gray-500 text-xs font-normal">
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-0"
+                          />
+                          {product.brand}
+                        </h3>
+                        <p className="text-gray-900 text-sm line-clamp-1">
                           <span
                             aria-hidden="true"
                             className="absolute inset-0"
                           />
                           {product.title}
+                        </p>
+                        <p className="flex items-center text-xs text-gray-500">
+                          <StarIcon className="w-5 h-5 fill-yellow-500 text-yellow-50 pr-1" />
+                          {product.rating}
+                        </p>
+                      </div>
+                      <div className="text-xs font-medium text-gray-900 flex justify-center">
+                        <div className="space-x-3">
+                          <span>
+                            ${" "}
+                            {Math.round(
+                              product.price *
+                                (1 - product.discountPercentage / 100)
+                            )}
+                          </span>
+                          <span className="line-through text-red-500 text-xs">
+                            $ {product.price}
+                          </span>
                         </div>
-                      </h3>
-                      <p className="flex gap-x-1 items-center text-xs text-gray-500">
-                        <StarIcon className="w-5 h-5 fill-yellow-500 text-yellow-50" />
-                        {product.rating}
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.color}
-                      </p>
+                      </div>
                     </div>
-                    <p className="text-sm font-medium text-gray-900 flex flex-col items-end">
-                      <span>
-                        ${" "}
-                        {Math.round(
-                          product.price * (1 - product.discountPercentage / 100)
-                        )}
-                      </span>
-                      <span className="line-through text-red-500 text-xs">
-                        $ {product.price}
-                      </span>
-                    </p>
                   </div>
+                  <p className="text-gray-700 font-normal mb-5 text-xs line-clamp-1">
+                    {product.description}
+                  </p>
                 </div>
               </Link>
             ))}
