@@ -2359,27 +2359,158 @@
       "id": 2
     }
   ],
-  "cart": [
+  "cart": [],
+  "orders": [
     {
-      "title": "iPhone X",
-      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 899,
-      "discountPercentage": 17.94,
-      "rating": 4.44,
-      "stock": 34,
-      "brand": "Apple",
-      "category": "smartphones",
-      "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/2/1.jpg",
-        "https://i.dummyjson.com/data/products/2/2.jpg",
-        "https://i.dummyjson.com/data/products/2/3.jpg",
-        "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+      "items": [
+        {
+          "title": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/2/1.jpg",
+            "https://i.dummyjson.com/data/products/2/2.jpg",
+            "https://i.dummyjson.com/data/products/2/3.jpg",
+            "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 1
+        },
+        {
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+          "images": [
+            "https://i.dummyjson.com/data/products/6/1.png",
+            "https://i.dummyjson.com/data/products/6/2.jpg",
+            "https://i.dummyjson.com/data/products/6/3.png",
+            "https://i.dummyjson.com/data/products/6/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 2
+        }
       ],
-      "quantity": 1,
-      "user": 1,
+      "totalAmount": 2648,
+      "totalItems": 2,
+      "user": {
+        "email": "test@gmail.com",
+        "password": "Anu1802r@g",
+        "addresses": [
+          {
+            "name": "Anurag",
+            "email": "test@gmail.com",
+            "country": "IN",
+            "phone": "6355267769",
+            "street": "15 B Akshar Residency",
+            "city": "Kadi",
+            "state": "Gujarat",
+            "pincode": "382715"
+          }
+        ],
+        "id": 1
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Anurag",
+        "email": "test@gmail.com",
+        "country": "IN",
+        "phone": "6355267769",
+        "street": "15 B Akshar Residency",
+        "city": "Kadi",
+        "state": "Gujarat",
+        "pincode": "382715"
+      },
+      "status": "pending",
       "id": 1
+    },
+    {
+      "items": [
+        {
+          "title": "Stainless Steel Women",
+          "description": "Fashion Skmei 1830 Shell Dial Stainless Steel Women Wrist Watch Lady Bracelet Watch Quartz Watches Ladies",
+          "price": 35,
+          "discountPercentage": 8.98,
+          "rating": 4.08,
+          "stock": 111,
+          "brand": "Bracelet",
+          "category": "womens-watches",
+          "thumbnail": "https://i.dummyjson.com/data/products/70/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/70/1.jpg",
+            "https://i.dummyjson.com/data/products/70/2.jpg",
+            "https://i.dummyjson.com/data/products/70/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 1
+        },
+        {
+          "title": "half sleeves T shirts",
+          "description": "Many store is creating new designs and trend every month and every year. Daraz.pk have a beautiful range of men fashion brands",
+          "price": 23,
+          "discountPercentage": 12.76,
+          "rating": 4.26,
+          "stock": 132,
+          "brand": "Vintage Apparel",
+          "category": "mens-shirts",
+          "thumbnail": "https://i.dummyjson.com/data/products/51/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/51/1.png",
+            "https://i.dummyjson.com/data/products/51/2.jpg",
+            "https://i.dummyjson.com/data/products/51/3.jpg",
+            "https://i.dummyjson.com/data/products/51/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 2
+        }
+      ],
+      "totalAmount": 58,
+      "totalItems": 2,
+      "user": {
+        "email": "test@gmail.com",
+        "password": "Anu1802r@g",
+        "addresses": [
+          {
+            "name": "Anurag",
+            "email": "test@gmail.com",
+            "country": "IN",
+            "phone": "6355267769",
+            "street": "15 B Akshar Residency",
+            "city": "Kadi",
+            "state": "Gujarat",
+            "pincode": "382715"
+          }
+        ],
+        "id": 1
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Anurag",
+        "email": "test@gmail.com",
+        "country": "IN",
+        "phone": "6355267769",
+        "street": "15 B Akshar Residency",
+        "city": "Kadi",
+        "state": "Gujarat",
+        "pincode": "382715"
+      },
+      "status": "pending",
+      "id": 2
     }
-  ],
-  "order": []
+  ]
 }
