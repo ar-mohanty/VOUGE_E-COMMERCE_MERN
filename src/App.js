@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Counter } from "./features/counter/Counter";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Cart from "./features/cart/Cart";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -15,8 +13,9 @@ import { selectLoggedInUser } from "./features/auth/authSlice";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import Error404 from "./pages/Error404";
 import OrderSuccess from "./pages/OrderSuccess";
-import UserOrders from "./features/user/component/UserOrders";
 import UserOrderPage from "./pages/UserOrderPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +55,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/profile",
+    element: (
+      <Protected>
+        <UserProfilePage />,
+      </Protected>
+    ),
+  },
+  {
     path: "/order-success/:id",
     element: (
       <Protected>
@@ -67,7 +74,7 @@ const router = createBrowserRouter([
     path: "/orders",
     element: (
       <Protected>
-        <UserOrderPage /> 
+        <UserOrderPage />
       </Protected>
     ),
   },
@@ -84,6 +91,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
+      dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
 

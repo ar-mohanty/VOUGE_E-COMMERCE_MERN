@@ -346,12 +346,12 @@ function DesktopFilters({ handleFilter, filters }) {
           <Disclosure
             as="div"
             key={section.id}
-            className="border-b border-gray-200 py-6"
+            className="border-b border-gray-200 py-6 "
           >
             {({ open }) => (
               <>
                 <h3 className="-my-3 flow-root">
-                  <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                  <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500 px-3 border border-gray-200 rounded-md shadow-sm">
                     <span className="font-medium text-gray-900">
                       {section.name}
                     </span>
@@ -408,12 +408,12 @@ function ProductGrid({ products }) {
   };
   return (
     <>
-      <div className="bg-white">
+      <div>
         <div className="mx-auto max-w-2xl px-4 py-2 sm:px-6 sm:py-5 lg:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-3 xl:gap-x-8 ">
             {products.map((product) => (
               <Link to={`/product-detail/${product.id}`} key={product.id}>
-                <div key={product.id} className="group relative p-3 rounded-md shadow-sm hover:shadow-md">
+                <div key={product.id} className="group relative p-3 rounded-md shadow-sm hover:shadow-md bg-white border border-gray-300">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                     <img
                       src={product.thumbnail}

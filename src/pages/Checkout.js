@@ -10,10 +10,10 @@ import {
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
-import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
+import { selectUserInfo, updateUserAsync } from "../features/user/userSlice";
 
 const Checkout = () => {
   return (
@@ -36,7 +36,7 @@ const CheckOutPage = () => {
     formState: { errors },
   } = useForm();
 
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   const currentOrder = useSelector(selectCurrentOrder);
   const [selectedAddress, setSelectedAddresss] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -83,7 +83,9 @@ const CheckOutPage = () => {
   return (
     <>
       {!items.length && <Navigate to="/" replace={true} />}
-      {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`} replace={true} />}
+      {currentOrder && (
+        <Navigate to={`/order-success/${currentOrder.id}`} replace={true} />
+      )}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">

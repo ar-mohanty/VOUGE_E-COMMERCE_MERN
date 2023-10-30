@@ -4,6 +4,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { selectLoggedInUser } from "../features/auth/authSlice";
 import { resetCartAsync } from "../features/cart/cartSlice";
 import { resetOrder } from "../features/order/orderSlice";
+import orderSuccessPng from "../assets/ordersuccess.png";
 
 const OrderSuccess = () => {
   const params = useParams();
@@ -18,7 +19,7 @@ const OrderSuccess = () => {
     <>
       {!params.id && <Navigate to="/" replace={true} />}
       <main className="grid min-h-full h-screen place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-        <div className="text-center">
+        <div className="text-center flex items-center flex-col">
           <p className="text-base font-semibold text-indigo-600">
             Order Successfully Placed 🎉🎉🎉
           </p>
@@ -29,6 +30,7 @@ const OrderSuccess = () => {
             Soon we will dispatch your order stay tuned. Also you can check your
             order in My Account {">"} Orders
           </p>
+          <img src={orderSuccessPng} className="h-48"/>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               to="/"
