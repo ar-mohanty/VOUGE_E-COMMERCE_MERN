@@ -29,3 +29,10 @@ export function checkUser(loginInfo) {
   });
 }
 
+export function signOut(userId) {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/users", {});
+
+    resolve({ data: "success" });
+  });
+}
